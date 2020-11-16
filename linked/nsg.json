@@ -1,0 +1,57 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "networkSecurityGroupName" : {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the NSG"
+            }
+        },
+
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "Location given by main deploy temp"
+            }
+        },
+
+        "resourcetags": {
+            "type": "string",
+            "metadata": {
+                "description": "Tag to identify Resource"
+            }
+        }
+},
+
+
+"resources":[
+
+{
+    "type": "Microsoft.Network/networkSecurityGroups",
+    "apiVersion": "2020-06-01",
+    "name": "[parameters('networkSecurityGroupName')]",
+    "location": "[parameters('location')]",
+    "tags": "[parameters('resourceTags')]",
+    "properties": {
+      "securityRules": [
+        {
+          "name": "default-allow-3389",
+          "properties": {
+            "priority": 1000,
+            "access": "Allow",
+            "direction": "Inbound",
+            "destinationPortRange": "3389",
+            "protocol": "Tcp",
+            "sourcePortRange": "*",
+            "sourceAddressPrefix": "*",
+            "destinationAddressPrefix": "*"
+          }
+        }
+      ]
+    }
+
+}
+
+]
+}
