@@ -188,6 +188,12 @@
       
     
 },
+"variables": {
+  "templateBaseUrl": "https://raw.githubusercontent.com/MrIsaac42/templateTest/main/linked/",
+  "vmTemplateUrl": "[uri(variables('templateBaseUrl'), 'deployVM.json?token=AOTI25XUNWBEJPI4LKGSWCK7WKMD2')]",
+  "nsgTemplateUrl": "[uri(variables('templateBaseUrl'), 'nsg.json?token=AOTI25WC7BNTMWCIRBYKZPK7WKMJE')]",
+  "vnetTemplateUrl": "[uri(variables('templateBaseUrl'), 'vnet.json?token=AOTI25T3O4FB4DSTT5FPE4C7WKMM6')]"
+},
 
 "resources" : [
     {
@@ -201,7 +207,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri":"[uri('deployVM.json')]",
+                "uri":"[uri(variables('templateBaseUrl'),variables('vmTemplateUrl'))]",
                 "contentVersion":"1.0.0.0"
             }
         },
@@ -261,7 +267,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri":"[uri('vnet.json')]",
+                "uri":"[uri(variables('templateBaseUrl'),variables('vnetTemplateUrl'))]",
                 "contentVersion":"1.0.0.0"
 
             }
@@ -298,7 +304,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri":"[uri('nsg.json')]",
+                "uri":"[uri(variables('templateBaseUrl'),variables('nsgTemplateUrl'))]",
                 "contentVersion":"1.0.0.0"
 
             }
