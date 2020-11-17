@@ -192,9 +192,9 @@
 },
 "variables": {
   "templateBaseUrl": "https://raw.githubusercontent.com/MrIsaac42/templateTest/main/linked/",
-  "vmTemplateUrl": "[uri(variables('templateBaseUrl'), 'deployVM.json?token=AOTI25SWUC57V2ROFAVXWIS7WOM7G')]",
-  "nsgTemplateUrl": "[uri(variables('templateBaseUrl'), 'nsg.json?token=AOTI25QL5AX4RC75XGECJXC7WONE4')]",
-  "vnetTemplateUrl": "[uri(variables('templateBaseUrl'), 'vnet.json?token=AOTI25VJON62R476TI73ZLS7WONPS')]"
+  "vmTemplateUrl": "[uri(variables('templateBaseUrl'), 'deployVM.json')]",
+  "nsgTemplateUrl": "[uri(variables('templateBaseUrl'), 'nsg.json')]",
+  "vnetTemplateUrl": "[uri(variables('templateBaseUrl'), 'vnet.json')]"
 },
 
    
