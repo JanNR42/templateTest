@@ -14,13 +14,6 @@
             "metadata": {
                 "description": "Location given by main deploy temp"
             }
-        },
-
-        "resourcetags": {
-            "type": "string",
-            "metadata": {
-                "description": "Tag to identify Resource"
-            }
         }
 },
 
@@ -32,7 +25,7 @@
     "apiVersion": "2020-06-01",
     "name": "[parameters('networkSecurityGroupName')]",
     "location": "[parameters('location')]",
-    "tags": "[parameters('resourceTags')]",
+  
     "properties": {
       "securityRules": [
         {
