@@ -133,7 +133,7 @@
       },
   
       "resourceTags": {
-          "type": "object",
+          "type": "string",
           "defaultValue": {
             "Owner": "Jan"
         },
