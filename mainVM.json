@@ -132,15 +132,7 @@
         }
       },
   
-      "resourceTags": {
-          "type": "string",
-          "defaultValue": {
-            "Owner": "Jan"
-        },
-        "metadata": {
-            "description": "resourceTag to define the Owner"
-        }
-      },
+      
     
     "subnetRef": {
         "type": "string",
@@ -235,9 +227,6 @@
             },
             "location": {
                 "value": "[parameters('location')]"
-            },
-            "resourceTags": {
-                "value": "[parameters('resourceTags')]"
             }
         }
         }
@@ -263,9 +252,6 @@
             },
             "location": {
                 "value": "[parameters('location')]"
-            },
-            "resourceTags": {
-                "value": "[parameters('resourceTags')]"
             }
         }
     }
@@ -321,9 +307,7 @@
             "vmName": {
                 "value": "[parameters('vmName')]"
             },
-            "resourceTags": {
-                "value": "[parameters('resourceTags')]"
-            },
+            
             "subnetRef": {
                 "value": "[parameters('subnetRef')]"
             },
