@@ -15,6 +15,13 @@
           "description": "Password for the Virtual Machine."
         }
       },
+       "_artifactsLocation": {
+            "type": "string",
+            "metadata": {
+                "description": "The location of resources, such as templates and DSC modules, that the template depends on"
+            },
+            "defaultValue": "[deployment().properties.templateLink.uri]"
+        },
       "dnsLabelPrefix": {
         "type": "string",
         "defaultValue": "[toLower(concat(parameters('vmName'),'-', uniqueString(resourceGroup().id, parameters('vmName'))))]",
@@ -192,9 +199,9 @@
 },
 "variables": {
   "templateBaseUrl": "https://raw.githubusercontent.com/MrIsaac42/templateTest/main/linked/",
-  "vmTemplateUrl": "[uri(variables('templateBaseUrl'), 'deployVM.json')]",
-  "nsgTemplateUrl": "[uri(variables('templateBaseUrl'), 'nsg.json')]",
-  "vnetTemplateUrl": "[uri(variables('templateBaseUrl'), 'vnet.json')]"
+  "vmTemplateUrl": "[uri(parameters('_artifactsLocation'), 'linked/deployVM.json')]",
+  "nsgTemplateUrl": "[uri(parameters('_artifactsLocation'), 'linked/nsg.json')]",
+  "vnetTemplateUrl": "[uri(parameters('_artifactsLocation'), 'linked/vnet.json')]"
 },
 
    
