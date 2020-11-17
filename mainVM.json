@@ -146,7 +146,7 @@
 
     "nicName": {
         "type": "string",
-        "defaultValue":"[toLower(concat(parameters('adminUsername'),'1-nic'))]",
+        "defaultValue":"[toLower(concat(parameters('adminUsername'),'-nic'))]",
         "metadata": {
             "description": "Name of the nic"
         }
