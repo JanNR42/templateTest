@@ -208,7 +208,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri":"linked/vnet.json?token=AOTI25SMQZEJLY5ZD4QSUAK7WO3TM",
+                "uri":"linked/vnet.json",
                 "contentVersion":"1.0.0.0"
 
             
@@ -245,7 +245,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri":"linked/nsg.json?token=AOTI25UXGVNFGVPQ5UUN4CK7WO3VM",
+                "uri":"linked/nsg.json",
                 "contentVersion":"1.0.0.0"
 
             
@@ -274,7 +274,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri":"linked/deployVM.json?token=AOTI25SF73DFMCOW3RE7LXC7WO3WU",
+                "uri":"linked/deployVM.json",
                 "contentVersion":"1.0.0.0"
             
             
