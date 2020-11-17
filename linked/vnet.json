@@ -31,13 +31,7 @@
         "metadata": {
           "description": "Location for all resources."
         }
-      },
-      "resourcetags": {
-            "type": "string",
-            "metadata": {
-                "description": "Tag to identify Resource"
-            }
-        }
+      }
     },
     "resources": [
       {
@@ -45,7 +39,7 @@
         "name": "[parameters('virtualNetworkName')]",
         "apiVersion": "2019-02-01",
         "location": "[parameters('location')]",
-        "tags": "[parameters('resourceTags')]",
+        
         "properties": {
           "addressSpace": {
             "addressPrefixes": [
