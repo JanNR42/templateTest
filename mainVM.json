@@ -55,6 +55,7 @@
       "type": "string",
       "defaultValue": "10.0.0.4",
         "allowedValues": [
+        "10.0.0.4",  
         "10.0.0.5",
         "10.0.0.6",
         "10.0.0.7",
@@ -167,6 +168,7 @@
       },
     "subnetName": {
         "type": "string",
+        "defaultValue": "[toLower(concat(parameters('adminUsername'),'-sub'))]",
         "metadata": {
           "description": "The name of the subnet created in the new VNET"
         }
@@ -190,15 +192,80 @@
 },
 "variables": {
   "templateBaseUrl": "https://raw.githubusercontent.com/MrIsaac42/templateTest/main/linked/",
-  "vmTemplateUrl": "[uri(variables('templateBaseUrl'), 'deployVM.json?token=AOTI25XUNWBEJPI4LKGSWCK7WKMD2')]",
-  "nsgTemplateUrl": "[uri(variables('templateBaseUrl'), 'nsg.json?token=AOTI25WC7BNTMWCIRBYKZPK7WKMJE')]",
-  "vnetTemplateUrl": "[uri(variables('templateBaseUrl'), 'vnet.json?token=AOTI25T3O4FB4DSTT5FPE4C7WKMM6')]"
+  "vmTemplateUrl": "[uri(variables('templateBaseUrl'), 'deployVM.json?token=AOTI25SWUC57V2ROFAVXWIS7WOM7G')]",
+  "nsgTemplateUrl": "[uri(variables('templateBaseUrl'), 'nsg.json?token=AOTI25QL5AX4RC75XGECJXC7WONE4')]",
+  "vnetTemplateUrl": "[uri(variables('templateBaseUrl'), 'vnet.json?token=AOTI25VJON62R476TI73ZLS7WONPS')]"
 },
 
-"resources" : [
+   
+  
+"resources": [   
     {
         "type": "Microsoft.Resources/deployments",
         "apiVersion": "2019-08-01",
+        "name": "CreateVNet",
+        
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri":"[variables('vnetTemplateUrl')]",
+                "contentVersion":"1.0.0.0"
+
+            
+        },
+        "parameters": {
+            "virtualNetworkName": {
+                "value": "[parameters('virtualNetworkName')]"
+            },
+            "virtualNetworkAddressRange": {
+                "value": "[parameters('virtualNetworkAddressRange')]"
+            },
+            "subnetName": {
+                "value": "[parameters('subnetName')]"
+            },
+            "subnetRange": {
+                "value": "[parameters('subnetRange')]"
+            },
+            "location": {
+                "value": "[parameters('location')]"
+            },
+            "resourceTags": {
+                "value": "[parameters('resourceTags')]"
+            }
+        }
+        }
+    },
+    {
+     "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2019-08-01",
+        "name": "CreateNSG",
+        "dependsOn": [
+            "[resourceId('Microsoft.Resources/deployments', 'CreateVNet')]"
+        ],
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri":"[variables('nsgTemplateUrl')]",
+                "contentVersion":"1.0.0.0"
+
+            
+        },
+        "parameters": {   
+            "networkSecurityGroupName": {
+                "value": "[parameters('networkSecurityGroupName')]"
+            },
+            "location": {
+                "value": "[parameters('location')]"
+            },
+            "resourceTags": {
+                "value": "[parameters('resourceTags')]"
+            }
+        }
+    }
+    },
+    {
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2019-03-01",
         "name": "CreateVM",
         "dependsOn": [
             "[resourceId('Microsoft.Resources/deployments', 'CreateVNet')]",
@@ -207,12 +274,13 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri":"[uri(variables('templateBaseUrl'),variables('vmTemplateUrl'))]",
+                "uri":"[variables('vmTemplateUrl')]",
                 "contentVersion":"1.0.0.0"
-            }
+            
+            
+        
         },
-
-        "parameters" : {
+        "parameters": {
             "adminUsername": {
                 "value": "[parameters('adminUsername')]"
             },
@@ -256,71 +324,8 @@
                 "value": "[parameters('nicName')]"
             }
         }
-    },
-    {
-        "type": "Microsoft.Resources/deployments",
-        "apiVersion": "2019-08-01",
-        "name": "CreateVNet",
-        "dependsOn": [
-
-        ],
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": {
-                "uri":"[uri(variables('templateBaseUrl'),variables('vnetTemplateUrl'))]",
-                "contentVersion":"1.0.0.0"
-
-            }
-        },
-        "parameters": {
-            "virtualNetworkName": {
-                "value": "[parameters('virtualNetworkName')]"
-            },
-            "virtualNetworkAddressRange": {
-                "value": "[parameters('virtualNetworkAddressRange')]"
-            },
-            "subnetName": {
-                "value": "[parameters('subnetName')]"
-            },
-            "subnetRange": {
-                "value": "[parameters('subnetRange')]"
-            },
-            "location": {
-                "value": "[parameters('location')]"
-            },
-            "resourceTags": {
-                "value": "[parameters('resourceTags')]"
-            }
-
-        }
-    },
-    {
-     "type": "Microsoft.Resources/deployments",
-        "apiVersion": "2019-08-01",
-        "name": "CreateNSG",
-        "dependsOn": [
-            "[resourceId('Microsoft.Resources/deployments', 'CreateVNet')]"
-        ],
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": {
-                "uri":"[uri(variables('templateBaseUrl'),variables('nsgTemplateUrl'))]",
-                "contentVersion":"1.0.0.0"
-
-            }
-        },
-        "parameters": {   
-            "networkSecurityGroupName": {
-                "value": "[parameters('networkSecurityGroupName')]"
-            },
-            "location": {
-                "value": "[parameters('location')]"
-            },
-            "resourceTags": {
-                "value": "[parameters('resourceTags')]"
-            }
-
     }
     }
+
 ]
 }
