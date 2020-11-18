@@ -193,6 +193,7 @@
                 "description": "Name of the NSG"
             }
         },
+        
     "resourceTags": {
       "type": "object",
       "defaultValue": {
@@ -293,7 +294,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri":"[variables('vmTemplateUrl')]",
+                "uri":"[variables('vmADTemplateUrl')]",
                 "contentVersion":"1.0.0.0"
             
             
