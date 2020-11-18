@@ -32,6 +32,12 @@
           "description": "NSG Name"
         }
       },
+       "resourceTags": {
+      "type": "object",
+      "metadata": {
+        "description": "OwnerTag"
+        }
+      },
       "location": {
         "type": "string",
         "metadata": {
@@ -45,7 +51,7 @@
         "name": "[parameters('virtualNetworkName')]",
         "apiVersion": "2019-02-01",
         "location": "[parameters('location')]",
-        
+        "tags": "[parameters('resourceTags')]",
         "properties": {
           "addressSpace": {
             "addressPrefixes": [
