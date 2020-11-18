@@ -207,7 +207,7 @@
   "vmTemplateUrl": "[uri(parameters('_artifactsLocation'), 'linked/deployVM.json')]",
   "vmADTemplateUrl": "[uri(parameters('_artifactsLocation'), 'linked/deployVMAD.json')]",
   "nsgTemplateUrl": "[uri(parameters('_artifactsLocation'), 'linked/nsg.json')]",
-  "vnetTemplateUrl": "[uri(parameters('_artifactsLocation'), 'linked/vnet.json')]",
+  "vnetTemplateUrl": "[uri(parameters('_artifactsLocation'), 'linked/vnet.json')]"
   
 },
 
