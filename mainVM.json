@@ -179,12 +179,7 @@
           "description": "The address range of the subnet created in the new VNET"
         }
       },
-    "resourceTags": {
-      "type": "object",
-      "defaultValue": {
-        "Owner": "Jan"
-      }
-    },
+    
     "networkSecurityGroupName" : {
             "type": "string",
             "defaultValue": "[toLower(concat(parameters('adminUsername'),'-nsg'))]",
@@ -209,7 +204,7 @@
         "type": "Microsoft.Resources/deployments",
         "apiVersion": "2019-08-01",
         "name": "CreateVNet",
-        "tags": "[parameters('resourceTags')]",
+       
         "dependsOn": [
             "[resourceId('Microsoft.Resources/deployments', 'CreateNSG')]"
         ],
