@@ -266,6 +266,9 @@
             "networkSecurityGroupName": {
                 "value": "[parameters('networkSecurityGroupName')]"
             },
+            "resourceTags":{
+              "value": "[parameters('resourceTags')]"
+            },
             "location": {
                 "value": "[parameters('location')]"
             }
@@ -326,6 +329,9 @@
             
             "subnetRef": {
                 "value": "[parameters('subnetRef')]"
+            },
+            "resourceTags":{
+              "value": "[parameters('resourceTags')]"
             },
             "nicName": {
                 "value": "[parameters('nicName')]"
