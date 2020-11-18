@@ -203,7 +203,9 @@
         "type": "Microsoft.Resources/deployments",
         "apiVersion": "2019-08-01",
         "name": "CreateVNet",
-        
+        "dependsOn": [
+            "[resourceId('Microsoft.Resources/deployments', 'CreateNSG')]"
+        ],
         "properties": {
             "mode": "Incremental",
             "templateLink": {
@@ -225,6 +227,9 @@
             "subnetRange": {
                 "value": "[parameters('subnetRange')]"
             },
+            "networkSecurityGroupName":{
+              "value": "[parameters('networkSecurityGroupName')]"
+            },
             "location": {
                 "value": "[parameters('location')]"
             }
@@ -236,7 +241,7 @@
         "apiVersion": "2019-08-01",
         "name": "CreateNSG",
         "dependsOn": [
-            "[resourceId('Microsoft.Resources/deployments', 'CreateVNet')]"
+            
         ],
         "properties": {
             "mode": "Incremental",
