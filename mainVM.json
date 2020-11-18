@@ -184,7 +184,7 @@
       "defaultValue": {
         "Owner": "Jan"
       }
-    }
+    },
     "networkSecurityGroupName" : {
             "type": "string",
             "defaultValue": "[toLower(concat(parameters('adminUsername'),'-nsg'))]",
