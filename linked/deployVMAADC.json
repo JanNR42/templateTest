@@ -82,7 +82,12 @@
           "description": "Domain Name of the DC"
         }
       },
-      
+      "resourceTags": {
+      "type": "object",
+      "metadata": {
+        "description": "OwnerTag"
+        }
+      },
     
     "subnetRef": {
         "type": "string",
@@ -112,7 +117,7 @@
         "apiVersion": "2020-06-01",
         "name": "[parameters('publicIPName2')]",
         "location": "[parameters('location')]",
-        
+        "tags": "[parameters('resourceTags')]",
         "sku": {
           "name": "[parameters('publicIpSku')]"
         },
@@ -130,7 +135,7 @@
         "apiVersion": "2020-06-01",
         "name": "[parameters('nicName2')]",
         "location": "[parameters('location')]",
-        
+        "tags": "[parameters('resourceTags')]",
         "dependsOn": [
           "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPName2'))]"
           
@@ -158,6 +163,7 @@
         "apiVersion": "2020-06-01",
         "name": "[parameters('vmName2')]",
         "location": "[parameters('location')]",
+        "tags": "[parameters('resourceTags')]",
         "dependsOn": [
           "[resourceId('Microsoft.Network/networkInterfaces',parameters('nicName2'))]"
         ],
