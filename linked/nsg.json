@@ -8,12 +8,7 @@
                 "description": "Name of the NSG"
             }
         },
-        "resourceTags": {
-      "type": "object",
-      "metadata": {
-        "description": "OwnerTag"
-        }
-      },
+        
 
         "location": {
             "type": "string",
@@ -31,7 +26,7 @@
     "apiVersion": "2020-06-01",
     "name": "[parameters('networkSecurityGroupName')]",
     "location": "[parameters('location')]",
-    "tags": "[parameters('resourceTags')]",
+    
     "properties": {
       "securityRules": [
         {
