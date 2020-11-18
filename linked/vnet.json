@@ -26,6 +26,12 @@
           "description": "The address range of the subnet created in the new VNET"
         }
       },
+       "networkSecurityGroupName": {
+        "type": "string",
+        "metadata": {
+          "description": "NSG Name"
+        }
+      },
       "location": {
         "type": "string",
         "metadata": {
@@ -50,7 +56,10 @@
             {
               "name": "[parameters('subnetName')]",
               "properties": {
-                "addressPrefix": "[parameters('subnetRange')]"
+                "addressPrefix": "[parameters('subnetRange')]",
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
+                }
               }
             }
           ]
