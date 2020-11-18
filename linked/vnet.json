@@ -32,13 +32,13 @@
           "description": "NSG Name"
         }
       },
-        "DNSServerAddress": {
-        "type": "array",
+      "DNSServerAddress": {
+        "type": "string",
         "metadata": {
           "description": "The DNS address(es) of the DNS Server(s) used by the VNET"
         }
       },
-       "resourceTags": {
+      "resourceTags": {
       "type": "object",
       "metadata": {
         "description": "OwnerTag"
@@ -64,7 +64,7 @@
               "[parameters('virtualNetworkAddressRange')]"
             ]
           },
-            "dhcpOptions": {
+          "dhcpOptions": {
             "dnsServers": "[parameters('DNSServerAddress')]"
           },
           "subnets": [
