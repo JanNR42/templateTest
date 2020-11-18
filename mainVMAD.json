@@ -179,6 +179,13 @@
           "description": "The address range of the subnet created in the new VNET"
         }
       },
+    "domainName": {
+        "type": "string",
+        "defaultValue": "plygrnd.demo.com",
+        "metadata": {
+            "description": "Domain Name of the VM/DC"
+        }
+    },
     "networkSecurityGroupName" : {
             "type": "string",
             "defaultValue": "[toLower(concat(parameters('adminUsername'),'-nsg'))]",
@@ -198,9 +205,10 @@
 "variables": {
   "templateBaseUrl": "https://raw.githubusercontent.com/MrIsaac42/templateTest/main/linked/",
   "vmTemplateUrl": "[uri(parameters('_artifactsLocation'), 'linked/deployVM.json')]",
+  "vmADTemplateUrl": "[uri(parameters('_artifactsLocation'), 'linked/deployVMAD.json')]",
   "nsgTemplateUrl": "[uri(parameters('_artifactsLocation'), 'linked/nsg.json')]",
   "vnetTemplateUrl": "[uri(parameters('_artifactsLocation'), 'linked/vnet.json')]",
-  "domainName": "plygrnd.demo.com"
+  
 },
 
    
@@ -278,7 +286,7 @@
     {
         "type": "Microsoft.Resources/deployments",
         "apiVersion": "2019-03-01",
-        "name": "CreateVM",
+        "name": "CreateADVM",
         "dependsOn": [
             "[resourceId('Microsoft.Resources/deployments', 'CreateVNet')]"
         ],
@@ -291,45 +299,15 @@
             
         
         },
-        "resources": [
-                {
-                    "type": "extensions",
-                    "apiVersion": "2019-03-01",
-                    "name": "CreateADForest",
-                    "location": "[parameters('location')]",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Resources/deployments','CreateVM')]"
-                    ],
-                    "properties": {
-                        "publisher": "Microsoft.Powershell",
-                        "type": "DSC",
-                        "typeHandlerVersion": "2.19",
-                        "autoUpgradeMinorVersion": true,
-                        "settings": {
-                            "ModulesUrl": "[uri(parameters('_artifactsLocation'), 'DSC/CreateADPDC.zip')]",
-                            "ConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
-                            "Properties": {
-                                "DomainName": "[variables('domainName')]",
-                                "AdminCreds": {
-                                    "UserName": "[parameters('adminUsername')]",
-                                    "Password": "PrivateSettingsRef:AdminPassword"
-                                }
-                            }
-                        },
-                        "protectedSettings": {
-                            "Items": {
-                                "AdminPassword": "[parameters('adminPassword')]"
-                            }
-                        }
-                    }
-                }
-            ],
         "parameters": {
             "adminUsername": {
                 "value": "[parameters('adminUsername')]"
             },
             "adminPassword":{
                 "value": "[parameters('adminPassword')]"
+            },
+            "_artifactsLocation":{
+                "value": "[parameters('_artifactsLocation')]"
             },
             "dnsLabelPrefix": {
                 "value": "[parameters('dnsLabelPrefix')]"
@@ -358,7 +336,9 @@
             "vmName": {
                 "value": "[parameters('vmName')]"
             },
-            
+            "domainName": {
+                "value": "[parameters('domainName')]"
+            },
             "subnetRef": {
                 "value": "[parameters('subnetRef')]"
             },
