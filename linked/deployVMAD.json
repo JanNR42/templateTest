@@ -90,6 +90,12 @@
             "description": "The SubnetRef for Nic"
         }
     },
+    "resourceTags": {
+      "type": "object",
+      "metadata": {
+        "description": "OwnerTag"
+        }
+      },
 
     "nicName": {
         "type": "string",
@@ -107,7 +113,7 @@
         "apiVersion": "2020-06-01",
         "name": "[parameters('publicIPName')]",
         "location": "[parameters('location')]",
-        
+        "tags": "[parameters('resourceTags')]",
         "sku": {
           "name": "[parameters('publicIpSku')]"
         },
@@ -125,7 +131,7 @@
         "apiVersion": "2020-06-01",
         "name": "[parameters('nicName')]",
         "location": "[parameters('location')]",
-        
+        "tags": "[parameters('resourceTags')]",
         "dependsOn": [
           "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPName'))]"
           
@@ -153,6 +159,7 @@
         "apiVersion": "2020-06-01",
         "name": "[parameters('vmName')]",
         "location": "[parameters('location')]",
+        "tags": "[parameters('resourceTags')]",
         "dependsOn": [
           "[resourceId('Microsoft.Network/networkInterfaces',parameters('nicName'))]"
         ],
