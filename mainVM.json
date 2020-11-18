@@ -186,7 +186,13 @@
             "metadata": {
                 "description": "Name of the NSG"
             }
-        }
+        },
+    "resourceTags": {
+      "type": "object",
+      "defaultValue": {
+        "Owner": "Jan"
+      }
+    }
       
     
 },
@@ -231,6 +237,9 @@
             },
             "networkSecurityGroupName":{
               "value": "[parameters('networkSecurityGroupName')]"
+            },
+            "resourceTags":{
+              "value": "[parameters('resourceTags')]"
             },
             "location": {
                 "value": "[parameters('location')]"
