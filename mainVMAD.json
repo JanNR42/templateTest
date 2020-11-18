@@ -335,17 +335,19 @@
             "nicName": {
                 "value": "[parameters('nicName')]"
             }
-        },
-        "resources": [
-        {
-          "type": "extensions",
-          "apiVersion": "2019-03-01",
-          "name": "CreateADForest",
-          "location": "[parameters('location')]",
-          "dependsOn": [
-            "[resourceId('Microsoft.Resources/deployments', 'CreateVM')]"
-          ],
-          "properties": {
+        }
+        
+    }
+    },
+    {
+        "name": "CreateVM/CreateADForest",
+        "type": "Microsoft.Compute/virtualMachines/extensions",
+        "apiVersion": "2018-06-01",
+        "location": "[parameters('location')]",
+        "dependsOn": [
+            "[resourceId('Microsoft.Resources/deployments','CreateVM')]"
+        ],
+        "properties": {
             "publisher": "Microsoft.Powershell",
             "type": "DSC",
             "typeHandlerVersion": "2.19",
@@ -366,10 +368,7 @@
                 "AdminPassword": "[parameters('adminPassword')]"
               }
             }
-          }
         }
-      ]
-    }
     }
 
 ]
