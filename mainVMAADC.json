@@ -417,10 +417,10 @@
                 "value": "[parameters('_artifactsLocation')]"
             },
             "dnsLabelPrefix2": {
-                "value": "[parameters('dnsLabelPrefix')]"
+                "value": "[parameters('dnsLabelPrefix2')]"
             },
             "publicIpName2": {
-                "value": "[parameters('publicIpName')]"
+                "value": "[parameters('publicIpName2')]"
             },
             "publicIPAllocationMethod": {
                 "value": "[parameters('publicIPAllocationMethod')]"
@@ -429,7 +429,7 @@
                 "value": "[parameters('publicIpSku')]"
             },
             "privateIPAddress2": {
-                "value": "[parameters('privateIPAddress')]"
+                "value": "[parameters('privateIPAddress2')]"
             },
             "OSVersion": {
                 "value": "[parameters('OSVersion')]"
@@ -441,7 +441,7 @@
                 "value": "[parameters('location')]"
             },
             "vmName2": {
-                "value": "[parameters('vmName')]"
+                "value": "[parameters('vmName2')]"
             },
             "domainName": {
                 "value": "[parameters('domainName')]"
