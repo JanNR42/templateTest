@@ -1,0 +1,306 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "adminUsername": {
+        "type": "string",
+        "metadata": {
+          "description": "Username for the Virtual Machine."
+        }
+      },
+      "adminPassword": {
+        "type": "securestring",
+        "minLength": 12,
+        "metadata": {
+          "description": "Password for the Virtual Machine."
+        }
+      },
+      "_artifactsLocation": {
+        "type": "string",
+        "metadata": {
+          "description": "Location of the templates"
+        }
+      },
+      "dnsLabelPrefix2": {
+        "type": "string",
+        "metadata": {
+          "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
+        }
+      },
+      "publicIpName2": {
+        "type": "string",
+        "metadata": {
+          "description": "Name for the Public IP used to access the Virtual Machine."
+        }
+      },
+      "publicIPAllocationMethod": {
+        "type": "string",
+        "metadata": {
+          "description": "Allocation method for the Public IP used to access the Virtual Machine."
+        }
+      },
+      "publicIpSku": {
+        "type": "string",
+        "metadata": {
+          "description": "SKU for the Public IP used to access the Virtual Machine."
+        }
+      },
+      "privateIPAddress2": {
+      "type": "string",
+      "metadata": {
+        "description": "Private IP Address for the DNS Server"
+      }
+    },
+  
+      "OSVersion": {
+        "type": "string",
+        "metadata": {
+          "description": "The Windows version for the VM. This will pick a fully patched image of this given Windows version."
+        }
+      },
+      "vmSize": {
+        "type": "string",
+        "metadata": {
+          "description": "Size of the virtual machine."
+        }
+      },
+      "location": {
+        "type": "string",
+        "metadata": {
+          "description": "Location for all resources."
+        }
+      },
+      "vmName2": {
+        "type": "string",
+        "metadata": {
+          "description": "Name of the virtual machine."
+        }
+      },
+      "domainName": {
+        "type": "string",
+        "metadata": {
+          "description": "Domain Name of the DC"
+        }
+      },
+      
+    
+    "subnetRef": {
+        "type": "string",
+        "metadata": {
+            "description": "The SubnetRef for Nic"
+        }
+    },
+
+    "nicName2": {
+        "type": "string",
+        "metadata": {
+            "description": "Name of the nic"
+        }
+    }
+    },
+
+    "variables": {
+      "ouPath":"",
+      "domainJoinOptions":3
+    },
+
+    
+    "resources": [
+      
+      {
+        "type": "Microsoft.Network/publicIPAddresses",
+        "apiVersion": "2020-06-01",
+        "name": "[parameters('publicIPName2')]",
+        "location": "[parameters('location')]",
+        
+        "sku": {
+          "name": "[parameters('publicIpSku')]"
+        },
+        "properties": {
+          "publicIPAllocationMethod": "[parameters('publicIPAllocationMethod')]",
+          "dnsSettings": {
+            "domainNameLabel": "[parameters('dnsLabelPrefix2')]"
+          }
+        }
+      },
+      
+    
+      {
+        "type": "Microsoft.Network/networkInterfaces",
+        "apiVersion": "2020-06-01",
+        "name": "[parameters('nicName2')]",
+        "location": "[parameters('location')]",
+        
+        "dependsOn": [
+          "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPName2'))]"
+          
+        ],
+        "properties": {
+          "ipConfigurations": [
+            {
+              "name": "ipconfig1",
+              "properties": {
+                "privateIPAllocationMethod": "Static",
+                "privateIPAddress": "[parameters('privateIPAddress2')]",
+                "publicIPAddress": {
+                  "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPName2'))]"
+                },
+                "subnet": {
+                  "id": "[parameters('subnetRef')]"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "Microsoft.Compute/virtualMachines",
+        "apiVersion": "2020-06-01",
+        "name": "[parameters('vmName2')]",
+        "location": "[parameters('location')]",
+        "dependsOn": [
+          "[resourceId('Microsoft.Network/networkInterfaces',parameters('nicName2'))]"
+        ],
+        "properties": {
+          "hardwareProfile": {
+            "vmSize": "[parameters('vmSize')]"
+          },
+          "osProfile": {
+            "computerName": "[parameters('vmName2')]",
+            "adminUsername": "[parameters('adminUsername')]",
+            "adminPassword": "[parameters('adminPassword')]"
+          },
+          "storageProfile": {
+            "imageReference": {
+              "publisher": "MicrosoftWindowsServer",
+              "offer": "WindowsServer",
+              "sku": "[parameters('OSVersion')]",
+              "version": "latest"
+            
+            },
+            "osDisk": {
+              
+              "name":"[concat(parameters('vmName2'),'-OsDisk')]",
+              "createOption": "FromImage",
+              "managedDisk": {
+                "storageAccountType": "Standard_LRS"
+              }
+            
+            },
+            "dataDisks": [
+          {
+            "name": "[concat(parameters('vmName2'), '_DataDisk')]",
+            "caching": "ReadWrite",
+            "createOption": "Empty",
+            "diskSizeGB": 20,
+            "managedDisk": {
+              "storageAccountType": "Standard_LRS"
+            },
+            "lun": 0
+          }
+        ]
+      },
+            
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('nicName2'))]"
+              }
+            ]
+          
+          }
+        }
+      },
+      {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "apiVersion": "2019-07-01",
+      "name": "[concat(parameters('vmName2'), '/InstallAAD')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName2'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.7",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": ["[uri(parameters('_artifactsLocation'), 'scripts/azureadconnect.ps1')]"],
+          "commandToExecute":"powershell.exe -ExecutionPolicy Unrestricted -File azureadconnect.ps1"
+        },
+        "protectedsettings": {
+          "Password": "[parameters('adminPassword')]"
+        }
+        
+      }
+
+    
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "apiVersion": "2016-03-30",
+      "name": "[concat(parameters('vmName2'), '/joindomain')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName2'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type":"JsonADDomainExtension",
+        "typeHandlerVersion": "1.3",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "Name": "[parameters('domainName')]",
+          "User": "[concat(parameters('domainName'), '\\' ,parameters('adminUsername'))]",
+          "Restart":"true",
+          "OUPath": "[variables('ouPath')]",
+          "Options": "[variables('domainJoinOptions')]"
+        },
+        "protectedsettings": {
+          "Password": "[parameters('adminPassword')]"
+        }
+      }
+
+    },
+    {
+        "apiVersion": "[providers('Microsoft.DevTestLab','labs').apiVersions[0]]",
+        "type": "Microsoft.DevTestLab/schedules",
+        "name": "[concat('shutdown-computevm-',parameters('vmName2'))]",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+          "[resourceId('Microsoft.Compute/virtualMachines/',parameters('vmName2'))]"
+        ],
+        "properties": {
+          "status": "Enabled",
+          
+          "taskType": "ComputeVmShutdownTask",
+          "dailyRecurrence": {
+            "time": "1800"
+          },
+          "timeZoneId": "Central Europe Standard Time",
+          "notificationSettings": {
+            "status": "Disabled",
+            "timeInMinutes": 15
+          },
+          "targetResourceId": "[resourceId('Microsoft.Compute/virtualMachines/', parameters('vmName2'))]"
+          
+        }
+      }
+      
+    ],
+    "outputs": {
+      "hostname": {
+        "type": "string",
+        "value": "[reference(parameters('publicIPName2')).dnsSettings.fqdn]"
+      },
+      "ipAddress" : {
+        "type": "string",
+        "value": "[reference(parameters('publicIPName2')).IpAddress]"
+      },
+      "vmId": {
+        "type": "string",
+        "value": "[reference(resourceId('Microsoft.Compute/virtualMachines', parameters('vmName2'))).osProfile.computerName]"
+      
+      }
+    }
+  }
