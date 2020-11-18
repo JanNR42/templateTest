@@ -231,6 +231,31 @@
         }
         }
     },
+    {
+     "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2019-08-01",
+        "name": "CreateNSG",
+        "dependsOn": [
+            "[resourceId('Microsoft.Resources/deployments', 'CreateVNet')]"
+        ],
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri":"[variables('nsgTemplateUrl')]",
+                "contentVersion":"1.0.0.0"
+
+            
+        },
+        "parameters": {   
+            "networkSecurityGroupName": {
+                "value": "[parameters('networkSecurityGroupName')]"
+            },
+            "location": {
+                "value": "[parameters('location')]"
+            }
+        }
+    }
+    },
     
     {
         "type": "Microsoft.Resources/deployments",
