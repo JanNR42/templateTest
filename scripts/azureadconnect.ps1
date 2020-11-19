@@ -6,4 +6,6 @@ $webclient.DownloadFile($AADConnectDLUrl, $tempfile)
 Rename-Item -Path $tempfile -NewName "AzureADConnect.msi"
 $MSIPath = $folder + "\AzureADConnect.msi"
 Copy-Item -Path $MSIPath -Destination "C:\Users\Public\Desktop"
-
+if ((Test-Path "C:\Users\Public\Desktop") -eq $true){
+    Restart-Computer -Force
+}
