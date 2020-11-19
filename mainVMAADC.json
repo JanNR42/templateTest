@@ -256,7 +256,9 @@
         "apiVersion": "2019-08-01",
         "name": "CreateVNet",
         "dependsOn": [
-            "[resourceId('Microsoft.Resources/deployments', 'CreateNSG')]"
+            "[resourceId('Microsoft.Resources/deployments', 'CreateNSG')]",
+            "[resourceId('Microsoft.Resources/deployments', 'CreateADVM')]",
+            "[resourceId('Microsoft.Resources/deployments', 'CreateAADC')]"
         ],
         "properties": {
             "mode": "Incremental",
@@ -328,7 +330,7 @@
         "apiVersion": "2019-03-01",
         "name": "CreateADVM",
         "dependsOn": [
-            "[resourceId('Microsoft.Resources/deployments', 'CreateVNet')]"
+           
         ],
         "properties": {
             "mode": "Incremental",
@@ -393,7 +395,7 @@
         "apiVersion": "2019-03-01",
         "name": "CreateAADC",
         "dependsOn": [
-            "[resourceId('Microsoft.Resources/deployments', 'CreateVNet')]"
+           
         ],
         "properties": {
             "mode": "Incremental",
