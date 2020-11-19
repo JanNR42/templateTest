@@ -282,9 +282,7 @@
             "networkSecurityGroupName":{
               "value": "[parameters('networkSecurityGroupName')]"
             },
-            "DNSServerAddress":{
-              "value": ["[parameters('privateIPAddress')]", "168.63.129.16"]
-            },
+            
             "resourceTags":{
               "value": "[parameters('resourceTags')]"
             },
@@ -388,12 +386,57 @@
         }
         }   
     },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-06-01",
+      "name": "UpdateVnetDNS",
+      "dependsOn": [
+        "CreateADVM"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[uri(parameters('_artifactsLocation'), concat('testdsccont42/nestedtemplates/vnet-dns-update.json', parameters('_artifactsLocationSasToken')))]",
+          "contentVersion":"1.0.0.0",
+          "settings": {
+            "Restart":"true"
+          }
+        },
+        "parameters": {
+          "virtualNetworkName": {
+                "value": "[parameters('virtualNetworkName')]"
+            },
+            "virtualNetworkAddressRange": {
+                "value": "[parameters('virtualNetworkAddressRange')]"
+            },
+            "subnetName": {
+                "value": "[parameters('subnetName')]"
+            },
+            "subnetRange": {
+                "value": "[parameters('subnetRange')]"
+            },
+            "networkSecurityGroupName":{
+              "value": "[parameters('networkSecurityGroupName')]"
+            },
+            "DNSServerAddress":{
+              "value": "[parameters('privateIPAddress')]"
+            },
+            "resourceTags":{
+              "value": "[parameters('resourceTags')]"
+            },
+            "location": {
+                "value": "[parameters('location')]"
+            }          
+        }
+      }
+    },
       {
         "type": "Microsoft.Resources/deployments",
         "apiVersion": "2019-03-01",
         "name": "CreateAADC",
         "dependsOn": [
-           "[resourceId('Microsoft.Resources/deployments', 'CreateVNet')]"
+           "[resourceId('Microsoft.Resources/deployments', 'CreateVNet')]",
+           "UpdateVnetDNS"
         ],
         "properties": {
             "mode": "Incremental",
