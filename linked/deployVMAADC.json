@@ -249,7 +249,7 @@
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName2'))]",
-        "[concat('Microsoft.Compute/virtualMachines/extensions/', concat(parameters('vmName2'), '/InstallAAD'))]"
+        "[concat('Microsoft.Compute/virtualMachines/extensions/', parameters('vmName2'), '/InstallAAD'))]"
       ],
       "properties": {
         "publisher": "Microsoft.Compute",
