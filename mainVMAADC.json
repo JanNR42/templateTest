@@ -448,7 +448,7 @@
               "value": "[parameters('resourceTags')]"
             },
             "nicName2": {
-                "value": "[parameters('nicName')]"
+                "value": "[parameters('nicName2')]"
             }
         }
         }   
