@@ -245,6 +245,7 @@
   "vmADTemplateUrl": "[uri(parameters('_artifactsLocation'), 'linked/deployVMAD.json')]",
   "nsgTemplateUrl": "[uri(parameters('_artifactsLocation'), 'linked/nsg.json')]",
   "vnetTemplateUrl": "[uri(parameters('_artifactsLocation'), 'linked/vnet.json')]",
+  "vnetUpdateTemplateUrl": "[uri(parameters('_artifactsLocation'), 'linked/vnet_update_dns.json')]",
   "vmAADCTemplateUrl": "[uri(parameters('_artifactsLocation'),'linked/deployVMAADC.json')]"
 },
 
@@ -396,7 +397,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[uri(parameters('_artifactsLocation'), concat('testdsccont42/nestedtemplates/vnet-dns-update.json', parameters('_artifactsLocationSasToken')))]",
+          "uri": "[variables('vnetUpdateTemplateUrl')]",
           "contentVersion":"1.0.0.0",
           "settings": {
             "Restart":"true"
