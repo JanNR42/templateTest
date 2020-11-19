@@ -420,7 +420,7 @@
               "value": "[parameters('networkSecurityGroupName')]"
             },
             "DNSServerAddress":{
-              "value": "[parameters('privateIPAddress')]"
+              "value": ["[parameters('privateIPAddress')]"]
             },
             "resourceTags":{
               "value": "[parameters('resourceTags')]"
