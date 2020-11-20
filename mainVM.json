@@ -340,19 +340,5 @@
     }
     }
 
-],
-"outputs": {
-  "Username": {
-    "type": "string",
-    "value": "[reference('CreateVM').outputs.adminUsername.value]"
-  },
-  "vmNme": {
-    "type": "string",
-    "value": "[reference('CreateVM').outputs.vmName.value]"
-  },
-  "ipAddress": {
-    "type": "string",
-    "value": "[reference(parameters('publicIpName')).IpAddress]"
-  }
-}
+]
 }
