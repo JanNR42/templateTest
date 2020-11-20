@@ -296,18 +296,17 @@
       
     ],
     "outputs": {
-      "hostname": {
+      "hostname2": {
         "type": "string",
         "value": "[reference(parameters('publicIPName2')).dnsSettings.fqdn]"
       },
-      "ipAddress" : {
+      "ipAddress2" : {
         "type": "string",
         "value": "[reference(parameters('publicIPName2')).IpAddress]"
       },
-      "vmId": {
+      "vmId2": {
         "type": "string",
         "value": "[reference(resourceId('Microsoft.Compute/virtualMachines', parameters('vmName2'))).osProfile.computerName]"
-      
-      }
+        }
     }
   }
