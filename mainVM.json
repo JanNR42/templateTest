@@ -342,17 +342,17 @@
 
 ],
 "outputs": {
-  "hostname": {
+  "hostnameout": {
     "type": "string",
-    "value": "[reference(parameters('publicIPName')).dnsSettings.fqdn]"
+    "value": "[reference('CreateVM').outputs.hostname.value]"
   },
-  "ipAddress" : {
+  "ipAddressout" : {
         "type": "string",
-        "value": "[reference(parameters('publicIPName')).IpAddress]"
+        "value": "[reference('CreateVM').outputs.ipAddress.value]"
       },
-   "vmId": {
+   "vmIdout": {
         "type": "string",
-        "value": "[reference(resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))).osProfile.computerName]"
+        "value": "[reference('CreateVM').outputs.vmId.value]"
   }
 }
 }
