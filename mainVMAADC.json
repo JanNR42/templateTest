@@ -497,5 +497,31 @@
         }
         }   
     }
-]
+],
+"outputs": {
+  "hostnameout": {
+    "type": "string",
+    "value": "[reference('CreateADVM').outputs.hostname.value]"
+  },
+  "ipAddressout" : {
+        "type": "string",
+        "value": "[reference('CreateADVM').outputs.ipAddress.value]"
+      },
+   "vmIdout": {
+        "type": "string",
+        "value": "[reference('CreateADVM').outputs.vmId.value]"
+  },
+    "hostnameout2": {
+    "type": "string",
+    "value": "[reference('CreateAADC').outputs.hostname2.value]"
+  },
+  "ipAddressout2" : {
+        "type": "string",
+        "value": "[reference('CreateAADC').outputs.ipAddress2.value]"
+      },
+   "vmIdout2": {
+        "type": "string",
+        "value": "[reference('CreateAADC').outputs.vmId2.value]"
+  }
+}
 }
