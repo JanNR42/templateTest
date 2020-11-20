@@ -352,5 +352,19 @@
         }
         }   
     }
-]
+],
+    "outputs": {
+  "hostnameout": {
+    "type": "string",
+    "value": "[reference('CreateADVM').outputs.hostname.value]"
+  },
+  "ipAddressout" : {
+        "type": "string",
+        "value": "[reference('CreateADVM').outputs.ipAddress.value]"
+      },
+   "vmIdout": {
+        "type": "string",
+        "value": "[reference('CreateADVM').outputs.vmId.value]"
+   }
+   }
 }
