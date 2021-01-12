@@ -146,14 +146,14 @@
 
     "nicName": {
         "type": "string",
-        "defaultValue":"[toLower(concat(parameters('adminUsername'),'-nic'))]",
+        "defaultValue":"[toLower(concat(parameters('vmName'),'-nic'))]",
         "metadata": {
             "description": "Name of the nic"
         }
     },
     "virtualNetworkName": {
         "type": "string",
-        "defaultValue":"[toLower(concat(parameters('adminUsername'),'-vnet'))]",
+        "defaultValue":"[toLower(concat(parameters('vmName'),'-vnet'))]",
         "metadata": {
           "description": "The name of the Virtual Network to Create"
         }
@@ -167,7 +167,7 @@
       },
     "subnetName": {
         "type": "string",
-        "defaultValue": "[toLower(concat(parameters('adminUsername'),'-sub'))]",
+        "defaultValue": "[toLower(concat(parameters('vmName'),'-sub'))]",
         "metadata": {
           "description": "The name of the subnet created in the new VNET"
         }
@@ -182,7 +182,7 @@
     
     "networkSecurityGroupName" : {
             "type": "string",
-            "defaultValue": "[toLower(concat(parameters('adminUsername'),'-nsg'))]",
+            "defaultValue": "[toLower(concat(parameters('vmName'),'-nsg'))]",
             "metadata": {
                 "description": "Name of the NSG"
             }
@@ -190,7 +190,7 @@
     "resourceTags": {
       "type": "object",
       "defaultValue": {
-        "Owner": "Jan"
+        "Owner": "AutoDeploy"
       }
     }
       
@@ -324,7 +324,7 @@
                 "value": "[parameters('location')]"
             },
             "vmName": {
-                "value": "[parameters('vmName')]"
+                "value": "[concat(parameters('vmName'),'-vm')]"
             },
             
             "subnetRef": {
